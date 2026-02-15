@@ -5,7 +5,7 @@ RED = "\033[31m"
 YELLOW = "\033[33m"
 CYAN = "\033[36m"
 PURPLE = "\033[35m"
-RESET = "\033[0m" # Обов'язково, щоб скинути колір назад до білогo
+RESET = "\033[0m" 
 ascii1 = PURPLE + r"""
 ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣤⣤⣾⣼⢀⣆⣀⠀⡆⢀⡆⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⢠⣠⣶⣽⣸⣯⣼⣽⣿⣼⣿⣧⣿⣷⢾⣷⣤⡎⠀⢠⠂⠀⠀⠀
@@ -38,7 +38,7 @@ def main_menu():
     print(ascii1)
 def variant1():
     global all_ips, mainfile
-    mainfile = input("[+] Enter File's name:")
+    mainfile = input("[+] Enter File's name: ")
     with open(mainfile, "r") as file:
         total_lines = 0
         total_ips = 0
