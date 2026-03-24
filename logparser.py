@@ -38,83 +38,93 @@ def main_menu():
     print(ascii1)
     print(nim)
 def variant1():
-    try:
-        global all_ips, mainfile
-        all_ips = []
-        mainfile = input("[+] Enter File's name: ")
-        with open(mainfile, "r", errors="ignore") as file:
-            total_lines = 0
-            total_ips = 0
-            unique_ips = 0
-            total_success = 0
-            total_failures = 0
-            success_words = ["200", "201", "202", "204", "SUCCESS", "SUCCESSFUL", "OK", "ONLINE", "AUTHORIZED", "AUTHENTICATED", "GRANTED", "ALLOWED", "CONNECTED", "ESTABLISHED", "COMPLETED", "FINISHED", "FOUND", "FETCHED", "ALIVE", "UP", "STABLE", "VALID", "VERIFIED"]    
+    global all_ips, mainfile
+    all_ips.clear()
+
+    mainfile = input("[+] Enter File's name:")
+    with open(mainfile, "r") as file:
+        total_lines = 0
+        total_ips = 0
+        total_success = 0
+        total_failures = 0
+
+        success_words = ["200", "201", "202", "204", "SUCCESS", "SUCCESSFUL", "OK", "ONLINE", "AUTHORIZED", "AUTHENTICATED", "GRANTED", "ALLOWED", "CONNECTED", "ESTABLISHED", "COMPLETED", "FINISHED", "FOUND", "FETCHED", "ALIVE", "UP", "STABLE", "VALID", "VERIFIED"]    
         
-            fail_words = ["400", "401", "403", "404", "405", "408", "429", "500", "502", "503", "504", "FAILURE", "FAILED", "FAIL", "ERROR", "ERR", "EXCEPTION", "DENIED", "REJECTED", "REFUSED", "CRITICAL", "FATAL", "EMERGENCY", "WARNING", "WARN", "TIMEOUT", "EXPIRED", "WAIT", "INVALID", "CORRUPTED", "BAD", "BREACH", "ATTACK", "INTRUSION", "EXPLOIT", "UNKNOWN", "UNDENIED", "NULL", "DISCONNECTED", "DOWN", "OFFLINE"]       
-            count = {}
-            success_events = []
-            fail_events = []
-            #lines
-            for liness in file:
-                total_lines += 1
-                lines = liness.split()
-                #words
-                for words in lines:
-                    word = words.upper()
-                    #ips counts:
-                    if word.count(".") >= 3:
-                        total_ips += 1
-                        all_ips.append(word)
-                        if word not in count:
-                            count[word] = 1
-                        else:
-                            count[word] += 1
-                    #success and failures count
-                    if word in success_words:
-                        total_success += 1
-                        success_events.append(liness)
-                        break
-                    elif word in fail_words:
-                        total_failures += 1
-                        fail_events.append(liness)
-                        break
-            unique_ips = len(set(all_ips))
-            print(CYAN + "=" * 39)
-            print(CYAN + "          [*] Main Statistics")
-            print(CYAN + "=" * 39)
-            print(" ")
-            print(YELLOW + "[*] Total Lines Processed:", total_lines)
-            print("")
-            print(YELLOW + "[*] Total IP Adresses:", total_ips)
-            print("")
-            print(YELLOW + "[*] Total Unique IP Adresses:", unique_ips)
-            print("")
-            print(YELLOW + "Success Requests:", total_success)
-            print("")
-            print(YELLOW + "Failed Requests:", total_failures)
-            print("")
-            print(YELLOW + "[*] All IP Adresses:", all_ips)
-            print("")
-            print(YELLOW + "[*] All Unique IP Adresses:", set(all_ips))
-            print(" ")
-            print("")
-            print(CYAN + "=" * 44)
-            print(CYAN + "           [!] Security Anomalies")
-            print(CYAN + "=" * 44)
-            print(" ")
-            for events in success_events:
-                print(GREEN + "[!] Success Event:", events)
-            for event in fail_events:
-                print(RED + "[!] Failed Event:", event)
-            print("")
-            print(CYAN + "=" * 44)
-            print(CYAN + "           [*] Top Traffic Sources")
-            print(CYAN + "=" * 44)
-            print("")
-            for i, g in count.items():
-                print(YELLOW + i, "-", g, "Events.")
-    except FileNotFoundError:
-        print(RED + "[!] There's no such file.")
+        fail_words = ["400", "401", "403", "404", "405", "408", "429", "500", "502", "503", "504", "FAILURE", "FAILED", "FAIL", "ERROR", "ERR", "EXCEPTION", "DENIED", "REJECTED", "REFUSED", "CRITICAL", "FATAL", "EMERGENCY", "WARNING", "WARN", "TIMEOUT", "EXPIRED", "WAIT", "INVALID", "CORRUPTED", "BAD", "BREACH", "ATTACK", "INTRUSION", "EXPLOIT", "UNKNOWN", "UNDENIED", "NULL", "DISCONNECTED", "DOWN", "OFFLINE"]       
+
+        dangerous_ips = []
+        success_ips = []
+        count = {}
+        success_events = []
+        fail_events = []
+
+        for liness in file:
+            total_lines += 1
+            lines = liness.split()
+
+            has_success = False
+            has_fail = False
+
+            for words in lines:
+                word = words.upper()
+
+                if word.count(".") == 3:
+                    all_ips.append(word)
+                    total_ips += 1
+
+                    if word not in count:
+                        count[word] = 1
+                    else:
+                        count[word] += 1
+
+                if word in success_words:
+                    has_success = True
+
+                elif word in fail_words:
+                    has_fail = True
+
+            if has_success:
+                total_success += 1
+                success_events.append(liness)
+
+            elif has_fail:
+                total_failures += 1
+                fail_events.append(liness)
+
+        unique_ips = len(set(all_ips))
+
+        print(CYAN + "=" * 39)
+        print(CYAN + "          [*] Main Statistics")
+        print(CYAN + "=" * 39)
+        print(" ")
+        print(YELLOW + "[*] Total Lines Processed:", total_lines)
+        print(YELLOW + "[*] Total IP Adresses:", total_ips)
+        print(YELLOW + "[*] Total Unique IP Adresses:", unique_ips)
+        print(YELLOW + "Success Requests:", total_success)
+        print(YELLOW + "Failed Requests:", total_failures)
+        print(YELLOW + "[*] All IP Adresses:", all_ips)
+        print(YELLOW + "[*] All Unique IP Adresses:", set(all_ips))
+        print(" ")
+
+        print(CYAN + "=" * 44)
+        print(CYAN + "           [!] Security Anomalies")
+        print(CYAN + "=" * 44)
+        print(" ")
+
+        for events in success_events:
+            print(GREEN + "[!] Success Event:", events)
+
+        for event in fail_events:
+            print(RED + "[!] Failed Event:", event)
+
+        print("")
+        print(CYAN + "=" * 44)
+        print(CYAN + "           [*] Top Traffic Sources")
+        print(CYAN + "=" * 44)
+        print("")
+
+        for i, g in count.items():
+            print(YELLOW + i, "-", g, "Events.")
 def variant2():
     print(YELLOW + "Hello, here you can find documentation about all functions:")
     print(GREEN + "First, to use function 1, and start analysis of Target's file, enter 1 in the main menu.")
@@ -171,3 +181,4 @@ while True:
             print(RED + "[!] Please, write down a function.")
     except KeyboardInterrupt:
         break
+
