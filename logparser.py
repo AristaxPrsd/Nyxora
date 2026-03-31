@@ -59,15 +59,14 @@ def variant1():
     all_ips.clear()
 
     mainfile = input("[+] Enter File's name:")
-    with open(mainfile, "r", errors="ignore") as file:
+    try:
+      with open(mainfile, "r", errors="ignore") as file:
         for line in file:
             total_lines += 1
             has_success = False
             has_fail = False
-
             for word in line.split():
                 word = word.upper()
-
                 if word.count(".") == 3:
                     parts = word.split(".")
                     if len(parts) == 4 and all(p.isdigit() and 0 <= int(p) <= 255 for p in parts):
@@ -81,12 +80,13 @@ def variant1():
             if has_success:
                 total_success += 1
                 success_events.append(line.strip())
-
             if has_fail:
                 total_failures += 1
                 fail_events.append(line.strip())
+    except FileNotFoundError:
+        print(RED + "[!] File not found.")
+        return
     unique_ips = len(set(all_ips))
-
     print(CYAN + "=" * 39)
     print(CYAN + "          [*] Main Statistics")
     print(CYAN + "=" * 39)
@@ -119,6 +119,7 @@ def variant1():
 
     for i, g in count.items():
         print(YELLOW + i, "-", g, "Events.")
+      
 def variant2():
     print(YELLOW + "Hello, here you can find documentation about all functions:")
     print(GREEN + "First, to use function 1, and start analysis of Target's file, enter 1 in the main menu.")
