@@ -1,4 +1,11 @@
 all_ips = []
+total_lines = 0
+total_ips = 0
+total_success = 0
+total_failures = 0
+count = {}
+success_events = []
+fail_events = []
 success_words = ["200", "201", "202", "204", "SUCCESS", "SUCCESSFUL", "OK", "ONLINE", "AUTHORIZED", "AUTHENTICATED", "GRANTED", "ALLOWED", "CONNECTED", "ESTABLISHED", "COMPLETED", "FINISHED", "FOUND", "FETCHED", "ALIVE", "UP", "STABLE", "VALID", "VERIFIED"]           
 fail_words = ["400", "401", "403", "404", "405", "408", "429", "500", "502", "503", "504", "FAILURE", "FAILED", "FAIL", "ERROR", "ERR", "EXCEPTION", "DENIED", "REJECTED", "REFUSED", "CRITICAL", "FATAL", "EMERGENCY", "WARNING", "WARN", "TIMEOUT", "EXPIRED", "WAIT", "INVALID", "CORRUPTED", "BAD", "BREACH", "ATTACK", "INTRUSION", "EXPLOIT", "UNKNOWN", "UNDENIED", "NULL", "DISCONNECTED", "DOWN", "OFFLINE"]       
 
