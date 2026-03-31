@@ -64,8 +64,9 @@ def variant1():
                 word = word.upper()
 
                 if word.count(".") == 3:
-                    all_ips.append(word)
-
+                    parts = word.split(".")
+                    if len(parts) == 4 and all(p.isdigit() and 0 <= int(p) <= 255 for p in parts):
+                        all_ips.append(word)
                 if word in success_words:
                     has_success = True
  
