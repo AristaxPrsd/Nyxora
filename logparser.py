@@ -1,4 +1,16 @@
 all_ips = []
+success_words = ["200", "201", "202", "204", "SUCCESS", "SUCCESSFUL", "OK", "ONLINE", "AUTHORIZED", "AUTHENTICATED", "GRANTED", "ALLOWED", "CONNECTED", "ESTABLISHED", "COMPLETED", "FINISHED", "FOUND", "FETCHED", "ALIVE", "UP", "STABLE", "VALID", "VERIFIED"]    
+total_lines = 0
+total_ips = 0
+total_success = 0
+total_failures = 0
+dangerous_ips = []
+success_ips = []
+count = {}
+success_events = []
+fail_events = []        
+fail_words = ["400", "401", "403", "404", "405", "408", "429", "500", "502", "503", "504", "FAILURE", "FAILED", "FAIL", "ERROR", "ERR", "EXCEPTION", "DENIED", "REJECTED", "REFUSED", "CRITICAL", "FATAL", "EMERGENCY", "WARNING", "WARN", "TIMEOUT", "EXPIRED", "WAIT", "INVALID", "CORRUPTED", "BAD", "BREACH", "ATTACK", "INTRUSION", "EXPLOIT", "UNKNOWN", "UNDENIED", "NULL", "DISCONNECTED", "DOWN", "OFFLINE"]       
+
 mainfile = "[$] No File Scanned."
 GREEN = "\033[32m"
 RED = "\033[31m"
@@ -42,55 +54,29 @@ def variant1():
     all_ips.clear()
 
     mainfile = input("[+] Enter File's name:")
-    with open(mainfile, "r") as file:
-        total_lines = 0
-        total_ips = 0
-        total_success = 0
-        total_failures = 0
-
-        success_words = ["200", "201", "202", "204", "SUCCESS", "SUCCESSFUL", "OK", "ONLINE", "AUTHORIZED", "AUTHENTICATED", "GRANTED", "ALLOWED", "CONNECTED", "ESTABLISHED", "COMPLETED", "FINISHED", "FOUND", "FETCHED", "ALIVE", "UP", "STABLE", "VALID", "VERIFIED"]    
-        
-        fail_words = ["400", "401", "403", "404", "405", "408", "429", "500", "502", "503", "504", "FAILURE", "FAILED", "FAIL", "ERROR", "ERR", "EXCEPTION", "DENIED", "REJECTED", "REFUSED", "CRITICAL", "FATAL", "EMERGENCY", "WARNING", "WARN", "TIMEOUT", "EXPIRED", "WAIT", "INVALID", "CORRUPTED", "BAD", "BREACH", "ATTACK", "INTRUSION", "EXPLOIT", "UNKNOWN", "UNDENIED", "NULL", "DISCONNECTED", "DOWN", "OFFLINE"]       
-
-        dangerous_ips = []
-        success_ips = []
-        count = {}
-        success_events = []
-        fail_events = []
-
-        for liness in file:
+        with open(file_name, "r", errors="ignore") as file:
+            for line in file:
             total_lines += 1
-            lines = liness.split()
-
             has_success = False
             has_fail = False
 
-            for words in lines:
-                word = words.upper()
+            for word in line.split():
+                word = word.upper()
 
                 if word.count(".") == 3:
                     all_ips.append(word)
-                    total_ips += 1
-
-                    if word not in count:
-                        count[word] = 1
-                    else:
-                        count[word] += 1
 
                 if word in success_words:
                     has_success = True
-
-                elif word in fail_words:
+ 
+                if word in fail_words:
                     has_fail = True
-
+ 
             if has_success:
                 total_success += 1
-                success_events.append(liness)
-
-            elif has_fail:
+ 
+            if has_fail:
                 total_failures += 1
-                fail_events.append(liness)
-
         unique_ips = len(set(all_ips))
 
         print(CYAN + "=" * 39)
