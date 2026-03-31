@@ -60,15 +60,15 @@ def variant1():
             has_success = False
             has_fail = False
 
-        for word in line.split():
-            word = word.upper()
+            for word in line.split():
+                word = word.upper()
 
-            if word.count(".") == 3:
-                parts = word.split(".")
-                if len(parts) == 4 and all(p.isdigit() and 0 <= int(p) <= 255 for p in parts):
-                    all_ips.append(word)
-                    count[word] = count.get(word, 0) + 1
-                    total_ips += 1
+                if word.count(".") == 3:
+                    parts = word.split(".")
+                    if len(parts) == 4 and all(p.isdigit() and 0 <= int(p) <= 255 for p in parts):
+                        all_ips.append(word)
+                        count[word] = count.get(word, 0) + 1
+                        total_ips += 1
             if word in success_words:
                 has_success = True
             if word in fail_words:
