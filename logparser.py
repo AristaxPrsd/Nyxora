@@ -54,11 +54,11 @@ def variant1():
     all_ips.clear()
 
     mainfile = input("[+] Enter File's name:")
-        with open(file_name, "r", errors="ignore") as file:
+       with open(mainfile, "r", errors="ignore") as file:
             for line in file:
-            total_lines += 1
-            has_success = False
-            has_fail = False
+                total_lines += 1
+                has_success = False
+                has_fail = False
 
             for word in line.split():
                 word = word.upper()
@@ -67,17 +67,19 @@ def variant1():
                     parts = word.split(".")
                     if len(parts) == 4 and all(p.isdigit() and 0 <= int(p) <= 255 for p in parts):
                         all_ips.append(word)
+                        count[word] = count.get(word, 0) + 1
+                        total_ips += 1
                 if word in success_words:
                     has_success = True
- 
                 if word in fail_words:
                     has_fail = True
- 
             if has_success:
                 total_success += 1
- 
+                success_events.append(line.strip())
+
             if has_fail:
                 total_failures += 1
+                fail_events.append(line.strip())
         unique_ips = len(set(all_ips))
 
         print(CYAN + "=" * 39)
