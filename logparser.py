@@ -80,7 +80,7 @@ def variant1():
             if has_success:
                 total_success += 1
                 success_events.append(line.strip())
-            if has_fail:
+            elif has_fail:
                 total_failures += 1
                 fail_events.append(line.strip())
     except FileNotFoundError:
@@ -160,19 +160,18 @@ def variant4():
 while True:
     try:
         main_menu()
-        try:
-            n = int(input(">_ "))
-            if n == 1:
-                variant1()
-            if n == 2:
-                variant2()
-            if n == 3:
-                variant3()
-            if n == 4:
-                variant4()
-            if n == 5:
-                exit()
-        except ValueError:
+        n = int(input(">_ "))
+        if n == 1:
+            variant1()
+        if n == 2:
+            variant2()
+        if n == 3:
+            variant3()
+        if n == 4:
+            variant4()
+        if n == 5:
+            exit()
+        else:
             print(RED + "[!] Please, write down a function.")
     except KeyboardInterrupt:
         break
