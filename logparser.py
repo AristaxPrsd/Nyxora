@@ -50,70 +50,70 @@ def main_menu():
     print(ascii1)
     print(nim)
 def variant1():
-    global all_ips, mainfile
+    global mainfile, all_ips, total_lines, total_ips, total_success, total_failures, count, success_events, fail_events
     all_ips.clear()
 
     mainfile = input("[+] Enter File's name:")
-       with open(mainfile, "r", errors="ignore") as file:
-            for line in file:
-                total_lines += 1
-                has_success = False
-                has_fail = False
+    with open(mainfile, "r", errors="ignore") as file:
+        for line in file:
+            total_lines += 1
+            has_success = False
+            has_fail = False
 
-            for word in line.split():
-                word = word.upper()
+        for word in line.split():
+            word = word.upper()
 
-                if word.count(".") == 3:
-                    parts = word.split(".")
-                    if len(parts) == 4 and all(p.isdigit() and 0 <= int(p) <= 255 for p in parts):
-                        all_ips.append(word)
-                        count[word] = count.get(word, 0) + 1
-                        total_ips += 1
-                if word in success_words:
-                    has_success = True
-                if word in fail_words:
-                    has_fail = True
-            if has_success:
-                total_success += 1
-                success_events.append(line.strip())
+            if word.count(".") == 3:
+                parts = word.split(".")
+                if len(parts) == 4 and all(p.isdigit() and 0 <= int(p) <= 255 for p in parts):
+                    all_ips.append(word)
+                    count[word] = count.get(word, 0) + 1
+                    total_ips += 1
+            if word in success_words:
+                has_success = True
+            if word in fail_words:
+                has_fail = True
+        if has_success:
+            total_success += 1
+            success_events.append(line.strip())
 
-            if has_fail:
-                total_failures += 1
-                fail_events.append(line.strip())
-        unique_ips = len(set(all_ips))
+        if has_fail:
+            total_failures += 1
+            fail_events.append(line.strip())
+    unique_ips = len(set(all_ips))
 
-        print(CYAN + "=" * 39)
-        print(CYAN + "          [*] Main Statistics")
-        print(CYAN + "=" * 39)
-        print(" ")
-        print(YELLOW + "[*] Total Lines Processed:", total_lines)
-        print(YELLOW + "[*] Total IP Adresses:", total_ips)
-        print(YELLOW + "[*] Total Unique IP Adresses:", unique_ips)
-        print(YELLOW + "Success Requests:", total_success)
-        print(YELLOW + "Failed Requests:", total_failures)
-        print(YELLOW + "[*] All IP Adresses:", all_ips)
-        print(YELLOW + "[*] All Unique IP Adresses:", set(all_ips))
-        print(" ")
+    print(CYAN + "=" * 39)
+    print(CYAN + "          [*] Main Statistics")
+    print(CYAN + "=" * 39)
+    print(" ")
+    print(YELLOW + "[*] Total Lines Processed:", total_lines)
+    print(YELLOW + "[*] Total IP Adresses:", total_ips)
+    print(YELLOW + "[*] Total Unique IP Adresses:", unique_ips)
+    print(YELLOW + "Success Requests:", total_success)
+    print(YELLOW + "Failed Requests:", total_failures)
+    print(YELLOW + "[*] All IP Adresses:", all_ips)
+    print(YELLOW + "[*] All Unique IP Adresses:", set(all_ips))
+    print(" ")
 
-        print(CYAN + "=" * 44)
-        print(CYAN + "           [!] Security Anomalies")
-        print(CYAN + "=" * 44)
-        print(" ")
+    print(CYAN + "=" * 44)
+    print(CYAN + "           [!] Security Anomalies")
+    print(CYAN + "=" * 44)
+    print(" ")
 
-        for events in success_events:
-            print(GREEN + "[!] Success Event:", events)
+    for events in success_events:
+        print(GREEN + "[!] Success Event:", events)
 
-        for event in fail_events:
-            print(RED + "[!] Failed Event:", event)
+    for event in fail_events:
+        print(RED + "[!] Failed Event:", event)
 
-        print("")
-        print(CYAN + "=" * 44)
-        print(CYAN + "           [*] Top Traffic Sources")
-        print(CYAN + "=" * 44)
-        print("")
+    print("")
+    print(CYAN + "=" * 44)
+    print(CYAN + "           [*] Top Traffic Sources")
+    print(CYAN + "=" * 44)
+    print("")
 
-        for i, g in count.items():
-            print(YELLOW + i, "-", g, "Events.")
+    for i, g in count.items():
+        print(YELLOW + i, "-", g, "Events.")
 def variant2():
     print(YELLOW + "Hello, here you can find documentation about all functions:")
     print(GREEN + "First, to use function 1, and start analysis of Target's file, enter 1 in the main menu.")
