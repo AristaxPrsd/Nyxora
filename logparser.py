@@ -69,17 +69,17 @@ def variant1():
                         all_ips.append(word)
                         count[word] = count.get(word, 0) + 1
                         total_ips += 1
-            if word in success_words:
-                has_success = True
-            if word in fail_words:
-                has_fail = True
-        if has_success:
-            total_success += 1
-            success_events.append(line.strip())
+                if word in success_words:
+                    has_success = True
+                if word in fail_words:
+                    has_fail = True
+            if has_success:
+                total_success += 1
+                success_events.append(line.strip())
 
-        if has_fail:
-            total_failures += 1
-            fail_events.append(line.strip())
+            if has_fail:
+                total_failures += 1
+                fail_events.append(line.strip())
     unique_ips = len(set(all_ips))
 
     print(CYAN + "=" * 39)
