@@ -49,6 +49,8 @@ def main_menu():
     print(nim)
 def variant1():
     global mainfile, all_ips, total_lines, total_ips, total_success, total_failures, count, success_events, fail_events
+    threshold_dos = total_lines * 0.15
+    threshold_brute = 10
     total_lines = 0
     total_ips = 0
     total_success = 0
@@ -59,10 +61,12 @@ def variant1():
     all_ips.clear()
 
     mainfile = input("[+] Enter File's name:")
+    ip_fails = {}
     try:
       with open(mainfile, "r", errors="ignore") as file:
         for line in file:
             total_lines += 1
+            current_line_ips = []
             has_success = False
             has_fail = False
             for word in line.split():
@@ -83,6 +87,8 @@ def variant1():
             elif has_fail:
                 total_failures += 1
                 fail_events.append(line.strip())
+                for ip in current_line_ips:
+                    ip_fails[ip] = ip_fails.get(ip, 0) + 1
     except FileNotFoundError:
         print(RED + "[!] File not found.")
         return
