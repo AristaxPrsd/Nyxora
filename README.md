@@ -1,8 +1,8 @@
-# NIPS v1.3
+# Nyxora v1.3
 Lightweight RAM-only log forensic engine. Unix-engineered. No Dependencies. Zero Trace.
 Developer: Aristax | Hardware Platform: HP Compaq 2510p | Engine: Vim
 ## Overview
-NIPS (Network Intrusion Parser System) is a high-velocity Python utility engineered for advanced network forensics and automated log auditing. The core logic is optimized for high-speed string processing and real-time pattern recognition in Unix-like environments. Unlike traditional analyzers, it focuses on extreme autonomy and zero-dependency operation.
+Nyxora is a high-velocity Python utility engineered for advanced network forensics and automated log auditing. The core logic is optimized for high-speed string processing and real-time pattern recognition in Unix-like environments. Unlike traditional analyzers, it focuses on extreme autonomy and zero-dependency operation.
 ## Security Architecture: Volatile Memory Policy
 To ensure a zero digital footprint and implement anti-forensics protocols, this tool operates exclusively in volatile memory (RAM). No persistent logs, search history, or session data are written to the physical disk. All processed information is permanently purged upon process termination.
 ## Technical Specifications
@@ -13,11 +13,11 @@ To ensure a zero digital footprint and implement anti-forensics protocols, this 
  * Session Identity: Unique RAM-linked session identifiers generated via memory address mapping using the native id function.
 ## Deployment and Execution
  1. Clone the repository:
-   git clone https://github.com/AristaxPrsd/LogParser
+   git clone https://github.com/AristaxPrsd/Nyxora
  2. Set execution permissions:
-   chmod +x NIPS.py
+   chmod +x nyxora.py
  3. Run the engine:
-   python3 NIPS.py
+   python3 nyxora.py
 ## Testing Environment
 The engine has been tested in GNU/Linux and BSD environments. It is specifically optimized for low-resource systems and remains fully functional without any external Python modules.
 ## Disclaimer
