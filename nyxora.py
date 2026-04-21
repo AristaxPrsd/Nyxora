@@ -186,7 +186,7 @@ def variant2():
 ⠀⠈⠉⠉⠋⠉⠉⠋⠉⠉⠉⠋⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠋⡟⠉⠉⡿⠋⠋⠋⠉⠉⠁     
     """
     print(asciii2)
-    print(GREEN + "{!} Project Name: LogParser v1.1")
+    print(GREEN + "{!} Project Name: Nyxora v1.3")
     print(GREEN + "{!} Developer: Aristax")
     print(GREEN + "{!} Environment: Unix Based Shell // Vim Engine")
     print(GREEN + "{!} This terminal utility is engineered for advanced network forensics and automated log auditing.It is designed to identify security breaches, detect unauthorised access attempts.Have a great time using it.")
