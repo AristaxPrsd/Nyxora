@@ -1,6 +1,6 @@
 # Nyxora v1.3
 Lightweight RAM-only log forensic engine. Unix-engineered. No Dependencies. Zero Trace.
-Developer: Aristax | Hardware Platform: HP Compaq 2510p | Engine: Vim
+Developer: Aristax | Hardware Platform: HP Compaq 2510p | Engine: NVim
 ## Overview
 Nyxora is a high-velocity Python utility engineered for advanced network forensics and automated log auditing. The core logic is optimized for high-speed string processing and real-time pattern recognition in Unix-like environments. Unlike traditional analyzers, it focuses on extreme autonomy and zero-dependency operation.
 ## Security Architecture: Volatile Memory Policy
