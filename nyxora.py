@@ -58,6 +58,7 @@ def variant1():
                 lines = liness.split()
                 has_success = False
                 has_fail = False
+                currentip_line = "[?] Unknown"
                 for words in lines:
                     word = words.upper()
                     cleanword = words.strip("[](),. ")
@@ -68,6 +69,7 @@ def variant1():
                     if word.count(".") == 3:
                         parts = word.split(".")
                         if len(parts) == 4 and all(p.isdigit() and 0 <= int(p) <= 255 for p in parts):
+                            currentip_line = word
                             all_ips.append(word)
                             total_ips += 1
                             if word not in count:
@@ -146,14 +148,10 @@ def variant1():
             print(RESET + "           [!] Security Anomalies")
             print(CYAN + "=" * 44)
             print(" ")
-            tries = 20 
-            for events in success_events:
+            for events in success_events[:20]:
                 print(GREEN + "[!] Success Event:", events)
-
-            while tries >= 20:
-                for event in fail_events:
+            for event in fail_events[:20]:
                     print(RED + "[!] Failed Event:", event)
-                    tries -= 1
             its = 10
             print("")
             print(CYAN + "=" * 44)
@@ -235,3 +233,4 @@ while True:
     except KeyboardInterrupt:
         break
 
+                  
