@@ -19,7 +19,7 @@ To ensure a zero digital footprint and implement anti-forensics protocols, this 
  3. Run the engine:
    python3 nyxora.py
 ## Testing Environment
-The engine has been tested in GNU/Linux and BSD environments. It is specifically optimized for low-resource systems and remains fully functional without any external Python modules.
+The engine has been tested in GNU/Linux and BSD environments. It is specifically optimized for low-resource systems and remains fully functional without any external or internal Python modules.
 ## Disclaimer
 This software is provided for educational and security auditing purposes only. The developer is not responsible for any direct or indirect consequences resulting from the use of this tool.
 Copyright (c) 2026 Aristax Digital Industries. All Rights Reserved.
