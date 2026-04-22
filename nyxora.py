@@ -36,6 +36,8 @@ def variant1():
     mainfile = input("[+] Enter File's name: ")
     ip_request_count = {}
     bruteforce_ips = []
+    banned_ip = set()
+    attacks = 0
     dos_ips = []
     try:
         with open(mainfile, "r", errors="ignore") as file:
@@ -102,43 +104,48 @@ def variant1():
             print(RESET + "          [*] Main Statistics")
             print(PURPLE + "=" * 39)
             print(" ")
-            print(YELLOW + "[*] Total Lines Processed:", str(total_lines))
+            print(CYAN + "[*] Total Lines Processed:", str(total_lines))
             print(YELLOW + "[&] Total IP Adresses:", total_ips)
             print(YELLOW + "[*] Total Unique IP Adresses:", str(unique_ips))
-            print(YELLOW + "[+] Success Requests:", str(total_success))
-            print(YELLOW + "[-] Failed Requests:", str(total_failures))
-            print(YELLOW + f"[+] Success Rate: {success_rate:.2f}%")
-            print(YELLOW + f"[-] Failure Rate: {failure_rate:.2f}%")
-            print(YELLOW + "[#] All IP Adresses:", str(all_ips))
-            print(YELLOW + "[#] All Unique IP Adresses:", set(all_ips))
+            print(GREEN + "[+] Success Requests:", str(total_success))
+            print(RED + "[-] Failed Requests:", str(total_failures))
+            print(GREEN + f"[+] Success Rate: {success_rate:.2f}%")
+            print(RED + f"[-] Failure Rate: {failure_rate:.2f}%")
+            print(YELLOW + "[#] Unique Source Nodes Identified: ", set(all_ips))
             print(" ")
             print(RED + "=" * 44)
             print(RED + "[!] Security Report")
             print(RED + "=" * 44)
             threats = False
             is_ddos = False
+            ipsources = []
             ishighh_veloc = False
             for ip, gsd_count in ip_fails.items():
-                if gsd_count > 5:
+                if gsd_count > 5 and ip not in banned_ip:
                     print(RED + f"[!] ALERT: Bruteforce Attack from {ip} ({gsd_count} fails)")
                     threats = True
+                    banned_ip.add(ip)
             for ts, rps in time_map.items():
                 if rps > 30:
                     ishighh_veloc = True
             for (ts, ip), rps_val in ip_rps.items():
                 if rps_val > 15:
                     ishighh_veloc = True
+                    ipsource = (ts, ip)
             for ip, yrs_count in count.items():
                 if yrs_count > 50:
-                    print(RED + f"[!] ALERT: DoS Attack from {ip} ({yrs_count} requests)")
+                    if ip not in banned_ip:
+                        print(RED + f"[!] ALERT: DoS Attack from {ip} ({yrs_count} requests)")
+                        banned_ip.add(ip)
                     threats = True
+                    attacks += yrs_count
             if ishighh_veloc:
                 is_ddos = True
                 threats = True
             if is_ddos:
-                print(RED + "[!] ALERT: DDoS Attack Detected")
-                print(YELLOW + f"[*] Magnitude: {total_lines} total requests")
-                print(YELLOW + f"[*] Botnet Size: {len(set(all_ips))} unique source IPs")
+                print(RED + "[!] ALERT: DDoS Attack Detected: ")
+                print(YELLOW + f"     |- [*] Magnitude: {attacks} attacks")
+                print(YELLOW + f"     |- [*] Botnet Size: {len(banned_ip)} Bots")
                 print("")
             if not threats:
                 print(GREEN + "[+] System is clean. No anomalies Detected")
@@ -164,33 +171,6 @@ def variant1():
             for tyr in ranking[:10]:
                 print(YELLOW + f"{tyr[1]} - {tyr[0]} Events.")
     except FileNotFoundError:
-    print(CYAN + "=" * 40)
-    print("")
-    asciii2 = GREEN + r"""
-    ⠀⠀⠀⠀⡀⠀⠀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⢸⠉⣹⠋⠉⢉⡟⢩⢋⠋⣽⡻⠭⢽⢉⠯⠭⠭⠭⢽⡍⢹⡍⠙⣯⠉⠉⠉⠉⠉⣿⢫⠉⠉⠉⢉⡟⠉⢿⢹⠉⢉⣉⢿⡝⡉⢩⢿⣻⢍⠉⠉⠩⢹⣟⡏⠉⠹⡉⢻⡍⡇
-⠀⢸⢠⢹⠀⠀⢸⠁⣼⠀⣼⡝⠀⠀⢸⠘⠀⠀⠀⠀⠈⢿⠀⡟⡄⠹⣣⠀⠀⠐⠀⢸⡘⡄⣤⠀⡼⠁⠀⢺⡘⠉⠀⠀⠀⠫⣪⣌⡌⢳⡻⣦⠀⠀⢃⡽⡼⡀⠀⢣⢸⠸⡇
-⠀⢸⡸⢸⠀⠀⣿⠀⣇⢠⡿⠀⠀⠀⠸⡇⠀⠀⠀⠀⠀⠘⢇⠸⠘⡀⠻⣇⠀⠀⠄⠀⡇⢣⢛⠀⡇⠀⠀⣸⠇⠀⠀⠀⠀⠀⠘⠄⢻⡀⠻⣻⣧⠀⠀⠃⢧⡇⠀⢸⢸⡇⡇
-⠀⢸⡇⢸⣠⠀⣿⢠⣿⡾⠁⠀⢀⡀⠤⢇⣀⣐⣀⠀⠤⢀⠈⠢⡡⡈⢦⡙⣷⡀⠀⠀⢿⠈⢻⣡⠁⠀⢀⠏⠀⠀⠀⢀⠀⠄⣀⣐⣀⣙⠢⡌⣻⣷⡀⢹⢸⡅⠀⢸⠸⡇⡇
-⠀⢸⡇⢸⣟⠀⢿⢸⡿⠀⣀⣶⣷⣾⡿⠿⣿⣿⣿⣿⣿⣶⣬⡀⠐⠰⣄⠙⠪⣻⣦⡀⠘⣧⠀⠙⠄⠀⠀⠀⠀⠀⣨⣴⣾⣿⠿⣿⣿⣿⣿⣿⣶⣯⣿⣼⢼⡇⠀⢸⡇⡇⡇
-⠀⢸⢧⠀⣿⡅⢸⣼⡷⣾⣿⡟⠋⣿⠓⢲⣿⣿⣿⡟⠙⣿⠛⢯⡳⡀⠈⠓⠄⡈⠚⠿⣧⣌⢧⠀⠀⠀⠀⠀⣠⣺⠟⢫⡿⠓⢺⣿⣿⣿⠏⠙⣏⠛⣿⣿⣾⡇⢀⡿⢠⠀⡇
-⠀⢸⢸⠀⢹⣷⡀⢿⡁⠀⠻⣇⠀⣇⠀⠘⣿⣿⡿⠁⠐⣉⡀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠉⠓⠳⠄⠀⠀⠀⠀⠋⠀⠘⡇⠀⠸⣿⣿⠟⠀⢈⣉⢠⡿⠁⣼⠁⣼⠃⣼⠀⡇
-⠀⢸⠸⣀⠈⣯⢳⡘⣇⠀⠀⠈⡂⣜⣆⡀⠀⠀⢀⣀⡴⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢽⣆⣀⠀⠀⠀⣀⣜⠕⡊⠀⣸⠇⣼⡟⢠⠏⠀⡇
-⠀⢸⠀⡟⠀⢸⡆⢹⡜⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠋⣾⡏⡇⡎⡇⠀⡇
-⠀⢸⠀⢃⡆⠀⢿⡄⠑⢽⣄⠀⠀⠀⢀⠂⠠⢁⠈⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠄⡐⢀⠂⠀⠀⣠⣮⡟⢹⣯⣸⣱⠁⠀⡇
-⠀⠈⠉⠉⠋⠉⠉⠋⠉⠉⠉⠋⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠋⡟⠉⠉⡿⠋⠋⠋⠉⠉⠁     
-    """
-    print(asciii2)
-    print(GREEN + "{!} Project Name: Nyxora v1.3")
-    print(GREEN + "{!} Developer: Aristax")
-    print(GREEN + "{!} Environment: Unix Based Shell // Vim Engine")
-    print(GREEN + "{!} This terminal utility is engineered for advanced network forensics and automated log auditing.It is designed to identify security breaches, detect unauthorised access attempts.Have a great time using it.")
-    print("")
-    print(YELLOW + "=" * 40)
-    print(YELLOW + "             [%] Key Features")
-    print(YELLOW + "=" * 40)
-    print("")
-    print(RED + "{!} To ensure zero digital footprint, this tool operates exclusively in RAM. All session data, i
         print(RED + "[$] Please write down a files name.")
 def variant2():
     print(CYAN + "=" * 40)
@@ -258,4 +238,3 @@ while True:
             print("[!] Please Enter a Function")
     except KeyboardInterrupt:
         break
-
