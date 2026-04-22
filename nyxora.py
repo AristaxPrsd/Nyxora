@@ -105,8 +105,8 @@ def variant1():
             print(PURPLE + "=" * 39)
             print(" ")
             print(CYAN + "[*] Total Lines Processed:", str(total_lines))
-            print(YELLOW + "[&] Total IP Adresses:", total_ips)
-            print(YELLOW + "[*] Total Unique IP Adresses:", str(unique_ips))
+            print(YELLOW + "[&] Total IP Addresses:", total_ips)
+            print(YELLOW + "[*] Total Unique IP Addresses:", str(unique_ips))
             print(GREEN + "[+] Success Requests:", str(total_success))
             print(RED + "[-] Failed Requests:", str(total_failures))
             print(GREEN + f"[+] Success Rate: {success_rate:.2f}%")
@@ -144,7 +144,7 @@ def variant1():
                 threats = True
             if is_ddos:
                 print(RED + "[!] ALERT: DDoS Attack Detected: ")
-                print(YELLOW + f"     |- [*] Magnitude: {attacks} attacks")
+                print(YELLOW + f"     |- [*] Magnitude: {attacks} requests")
                 print(YELLOW + f"     |- [*] Botnet Size: {len(banned_ip)} Bots")
                 print("")
             if not threats:
@@ -218,7 +218,7 @@ def variant3():
     print(CYAN + "=" * 40)
     print("")
     print(GREEN + "{$} Target:", mainfile)
-    print(GREEN + "{$} IP Adresses:", set(all_ips))
+    print(GREEN + "{$} IP Addresses:", set(all_ips))
     print(GREEN + "{$} Session ID:", random_id)
     print(RED + "{!} WARNING: These Session Logs will be deleted once you'll leave.")
 while True:
